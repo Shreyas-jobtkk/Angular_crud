@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Person {
-  id?: number;
+  id?: number | null;
   name: string;
   age: number;
   email: string;

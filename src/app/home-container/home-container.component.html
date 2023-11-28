@@ -1,4 +1,6 @@
 <!-- src/app/home-container.component.html -->
+
+<!-- Form for adding a new person -->
 <div>
   <label for="name">Name:</label>
   <input type="text" id="name" [(ngModel)]="personData.name" />
@@ -9,21 +11,33 @@
   <label for="email">Email:</label>
   <input type="text" id="email" [(ngModel)]="personData.email" />
 
-  <button (click)="addPerson()">Add Person</button>
+  <button (click)="addPerson()">
+    {{ isEditMode ? 'Update Person' : 'Add Person' }}
+  </button>
 </div>
 
-<!-- src/app/home-container.component.html -->
-
-<!-- Existing code -->
-
+<!-- Displaying all persons in a table -->
 <div>
   <h2>All Persons</h2>
-  <ul>
-    <li *ngFor="let person of allPersons">
-      {{ person.name }} - {{ person.age }} - {{ person.email }}
-    </li>
-  </ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let person of allPersons" [ngClass]="{ 'selected-row': person === selectedPersonForEdit }">
+        <td>{{ person.name }}</td>
+        <td>{{ person.age }}</td>
+        <td>{{ person.email }}</td>
+        <td>
+          <button (click)="editPerson(person)">Edit</button>
+          <button (click)="deletePerson(person.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-
-<!-- Existing code -->
-

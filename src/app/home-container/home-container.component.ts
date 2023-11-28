@@ -12,33 +12,23 @@ import { Subscription } from 'rxjs';
 export class HomeContainerComponent implements OnInit {
   personData = {
     name: '',
-    age: null as number | null, // Update type definition for age
+    age: null as number | null,
     email: ''
   };
 
   allPersons: Person[] = [];
-
-  // Subscription to keep track of the observable subscription
   private addPersonSubscription: Subscription | undefined;
+
+  isEditMode = false;
+  editingPersonId: number | null | undefined = null; // Allow undefined
 
   constructor(private personService: PersonService) { }
 
   ngOnInit() {
-    // Example: Log the value returned by getPerson for person with ID 3
-    this.personService.getPerson(3).subscribe({
-      next: person => {
-        console.log('Person data:', person);
-      },
-      error: error => {
-        console.error('Error getting person:', error);
-      }
-    });
-
     // Fetch all persons when the component is initialized
     this.fetchAllPersons();
   }
 
-  // Function to fetch all persons
   private fetchAllPersons() {
     this.personService.getAllPersons().subscribe({
       next: persons => {
@@ -50,45 +40,72 @@ export class HomeContainerComponent implements OnInit {
     });
   }
 
-  // Function to add a new person
   addPerson() {
-    // Validate input data
     if (!this.isValidInput()) {
       console.error('Invalid input data');
-      // Provide user feedback about the invalid input
       return;
     }
 
-    // Unsubscribe from the previous subscription if it exists
-    if (this.addPersonSubscription) {
-      this.addPersonSubscription.unsubscribe();
+    if (this.isEditMode && this.editingPersonId !== null && this.editingPersonId !== undefined) {
+      // Editing an existing person
+      this.personService.editPerson(this.editingPersonId, this.personData).subscribe({
+        next: response => {
+          console.log(response);
+          this.clearInputFields();
+          this.isEditMode = false;
+          this.editingPersonId = null; // Ensure null after editing
+          this.fetchAllPersons();
+        },
+        error: error => {
+          console.error(error);
+        }
+      });
+    } else {
+      // Adding a new person
+      this.addPersonSubscription = this.personService.addPerson(this.personData).subscribe({
+        next: response => {
+          console.log(response);
+          this.clearInputFields();
+          this.fetchAllPersons();
+        },
+        error: error => {
+          console.error(error);
+        }
+      });
     }
-
-    // Call the service to add a person
-    this.addPersonSubscription = this.personService.addPerson(this.personData).subscribe({
-      next: response => {
-        console.log(response);
-        // Handle success: Update UI, show success message, etc.
-        // Clear the input fields after success
-        this.clearInputFields();
-        // Fetch all persons again after adding a new person
-        this.fetchAllPersons();
-      },
-      error: error => {
-        console.error(error);
-        // Handle error: Show user-friendly error message
-      }
-    });
   }
 
-  // Function to validate input data
+  selectedPersonForEdit: Person | null = null;
+
+  editPerson(person: Person) {
+    this.selectedPersonForEdit = person;
+    this.personData = { ...person }; // Copy person properties to personData
+    this.isEditMode = true;
+    this.editingPersonId = person.id;
+  }
+
+  deletePerson(personId: number | null | undefined) {
+    if (personId !== null && personId !== undefined) {
+      this.personService.deletePerson(personId).subscribe({
+        next: response => {
+          console.log(response);
+          this.fetchAllPersons();
+        },
+        error: error => {
+          console.error(error);
+        }
+      });
+    } else {
+      console.error('Invalid person ID');
+    }
+  }
+
   private isValidInput(): boolean {
     return this.personData.name.trim() !== '' &&
-           this.personData.email.trim() !== '' &&
-           !isNaN(this.personData.age as number); // Type assertion for age
+      this.personData.email.trim() !== '' &&
+      !isNaN(this.personData.age as number);
   }
 
-  // Function to clear input fields
   private clearInputFields(): void {
     this.personData = {
       name: '',
