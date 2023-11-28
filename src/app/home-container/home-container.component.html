@@ -1,7 +1,7 @@
 <!-- src/app/home-container.component.html -->
 
 <!-- Form for adding a new person -->
-<div>
+<div  >
   <label for="name">Name:</label>
   <input type="text" id="name" [(ngModel)]="personData.name" />
 
@@ -11,7 +11,7 @@
   <label for="email">Email:</label>
   <input type="text" id="email" [(ngModel)]="personData.email" />
 
-  <button (click)="addPerson()">
+  <button (click)="addPerson()" [disabled]="!isValidInput2()">
     {{ isEditMode ? 'Update Person' : 'Add Person' }}
   </button>
 </div>

@@ -77,6 +77,12 @@ export class HomeContainerComponent implements OnInit {
 
   selectedPersonForEdit: Person | null = null;
 
+  isValidInput2(): boolean {
+    return this.personData.name.trim() !== '' &&
+           !isNaN(this.personData.age as number) &&
+           this.personData.email.trim() !== '';
+  }
+
   editPerson(person: Person) {
     this.selectedPersonForEdit = person;
     this.personData = { ...person }; // Copy person properties to personData
