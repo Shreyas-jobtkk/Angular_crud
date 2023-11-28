@@ -1,0 +1,50 @@
+<!-- home-container2.component.html -->
+<div style="margin: 20px;">
+    <h2>Home Data</h2>
+    <!-- Input fields for user input -->
+    <div style="margin-bottom: 10px;">
+      <label for="idInput" >ID:</label>
+      <input id="idInput" [(ngModel)]="userInput.id" style="margin-left: 10px;" />
+    </div>
+    <div style="margin-bottom: 10px;">
+      <label for="nameInput">Name:</label>
+      <input id="nameInput" [(ngModel)]="userInput.name" style="margin-left: 10px;" />
+    </div>
+    <div style="margin-bottom: 10px;">
+      <label for="progressInput">Progress:</label>
+      <input id="progressInput" [(ngModel)]="userInput.progress" style="margin-left: 10px;" />
+    </div>
+    <div style="margin-bottom: 10px;">
+      <label for="colorInput">Color:</label>
+      <input id="colorInput" [(ngModel)]="userInput.color" style="margin-left: 10px;" />
+    </div>
+    <div style="margin-bottom: 10px;">
+      <label for="newPropertyInput">New Property:</label>
+      <input id="newPropertyInput" [(ngModel)]="userInput.newProperty" style="margin-left: 10px;" />
+    </div>
+  
+    <!-- Display saved values from the home state in a table -->
+    <button (click)="onButtonClick()" style="margin-top: 10px;">Update State</button>
+  </div>
+  
+  <table style="border-collapse: collapse; width: 100%; margin-top: 20px;">
+    <thead>
+      <tr style="border: 1px solid #ddd; background-color: #f2f2f2;">
+        <th style="border: 1px solid #ddd; padding: 8px;">ID</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Name</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Progress</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Color</th>
+        <th *ngIf="homeData.length && homeData[0].newProperty" style="border: 1px solid #ddd; padding: 8px;">New Property</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of homeData" style="border: 1px solid #ddd;">
+        <td style="border: 1px solid #ddd; padding: 8px;">{{ item.id }}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{ item.name }}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{ item.progress }}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{ item.color }}</td>
+        <td *ngIf="item.newProperty" style="border: 1px solid #ddd; padding: 8px;">{{ item.newProperty }}</td>
+      </tr>
+    </tbody>
+  </table>
+  
