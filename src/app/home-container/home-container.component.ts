@@ -1,14 +1,6 @@
-// home-container.component.ts
-
+// src/app/home-container.component.ts
 import { Component } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-
-interface TableData {
-  id: number;
-  name: string;
-  age: number;
-  email: string;
-}
+import { PersonService } from '../data-service/data-service';
 
 @Component({
   selector: 'app-home-container',
@@ -16,12 +8,27 @@ interface TableData {
   styleUrls: ['./home-container.component.css']
 })
 export class HomeContainerComponent {
-  sampleData: TableData[] = [
-    { id: 1, name: 'John Doe', age: 25, email: 'john@example.com' },
-    { id: 2, name: 'Jane Doe', age: 30, email: 'jane@example.com' },
-    { id: 3, name: 'Bob Smith', age: 28, email: 'bob@example.com' },
-    // Add more sample data as needed
-  ];
+  personData = {
+    name: '',
+    age: null,
+    email: ''
+  };
 
-  dataSource = new MatTableDataSource<TableData>(this.sampleData);
+  constructor(private personService: PersonService) { }
+
+  addPerson() {
+    this.personService.addPerson(this.personData).subscribe(response => {
+      console.log(response);
+      // Handle success or update your UI accordingly
+      // Clear the input fields after success
+      this.personData = {
+        name: '',
+        age: null,
+        email: ''
+      };
+    }, error => {
+      console.error(error);
+      // Handle error
+    });
+  }
 }

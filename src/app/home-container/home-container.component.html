@@ -1,9 +1,13 @@
-<!-- home-container.component.html -->
+<!-- src/app/home-container.component.html -->
+<div>
+  <label for="name">Name:</label>
+  <input type="text" id="name" [(ngModel)]="personData.name" />
 
-<div class="container">
-  <h1>Welcome to the Home Container!</h1>
-  <p>This is a sample content for the Home Container component.</p>
+  <label for="age">Age:</label>
+  <input type="number" id="age" [(ngModel)]="personData.age" />
 
-  <!-- Provide your actual data source -->
-  <app-material-table [dataSource]="dataSource"></app-material-table>
+  <label for="email">Email:</label>
+  <input type="text" id="email" [(ngModel)]="personData.email" />
+
+  <button (click)="addPerson()">Add Person</button>
 </div>

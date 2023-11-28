@@ -10,13 +10,15 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialTableComponent } from './home-container/material-table/material-table.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
 
 @NgModule({
   declarations: [AppComponent, HomeContainerComponent, MaterialTableComponent],
-  imports: [BrowserModule, AppRoutingModule,MatTableModule,
+  imports: [HttpClientModule,BrowserModule, AppRoutingModule,MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    BrowserAnimationsModule,],
+    BrowserAnimationsModule,FormsModule, ],
   providers: [],
   bootstrap: [AppComponent]
 })
