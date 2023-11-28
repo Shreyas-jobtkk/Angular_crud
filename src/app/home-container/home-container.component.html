@@ -1,23 +1,32 @@
 <!-- src/app/home-container.component.html -->
 
 <!-- Form for adding a new person -->
-<div  >
-  <label for="name">Name:</label>
-  <input type="text" id="name" [(ngModel)]="personData.name" />
+<div style="border: 2px solid; padding: 20px; scale: .8;">
+  <div>
+    Name:
+    <input type="text" id="name" [(ngModel)]="personData.name" />
+  </div>
 
-  <label for="age">Age:</label>
-  <input type="number" id="age" [(ngModel)]="personData.age" />
+  <div>
+    Age:
+    <input type="number" id="age" [(ngModel)]="personData.age" />
+  </div>
 
-  <label for="email">Email:</label>
-  <input type="text" id="email" [(ngModel)]="personData.email" />
+  <div>
+    Email:
+    <input type="text" id="email" [(ngModel)]="personData.email" />
+  </div>
 
-  <button (click)="addPerson()" [disabled]="!isValidInput2()">
-    {{ isEditMode ? 'Update Person' : 'Add Person' }}
-  </button>
-</div>
+  <div>
+    <button (click)="addPerson()" [disabled]="!isValidInput2()">
+      {{ isEditMode ? 'Update Person' : 'Add Person' }}
+    </button>
+  </div>
+
+
 
 <!-- Displaying all persons in a table -->
-<div>
+
   <h2>All Persons</h2>
   <table>
     <thead>
@@ -34,8 +43,8 @@
         <td>{{ person.age }}</td>
         <td>{{ person.email }}</td>
         <td>
-          <button (click)="editPerson(person)">Edit</button>
-          <button (click)="deletePerson(person.id)">Delete</button>
+          <button (click)="editPerson(person)"  >Edit</button>
+          <button (click)="deletePerson(person.id)" style="margin-left: 10px;">Delete</button>
         </td>
       </tr>
     </tbody>
