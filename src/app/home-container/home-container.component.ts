@@ -1,6 +1,7 @@
 // src/app/home-container.component.ts
+
 import { Component, OnInit } from '@angular/core';
-import { PersonService } from '../data-service/data-service';
+import { PersonService, Person } from '../data-service/data-service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,19 +16,36 @@ export class HomeContainerComponent implements OnInit {
     email: ''
   };
 
+  allPersons: Person[] = [];
+
   // Subscription to keep track of the observable subscription
   private addPersonSubscription: Subscription | undefined;
 
   constructor(private personService: PersonService) { }
 
   ngOnInit() {
-    // Example: Log the value returned by getPerson for person with ID 1
+    // Example: Log the value returned by getPerson for person with ID 3
     this.personService.getPerson(3).subscribe({
       next: person => {
         console.log('Person data:', person);
       },
       error: error => {
         console.error('Error getting person:', error);
+      }
+    });
+
+    // Fetch all persons when the component is initialized
+    this.fetchAllPersons();
+  }
+
+  // Function to fetch all persons
+  private fetchAllPersons() {
+    this.personService.getAllPersons().subscribe({
+      next: persons => {
+        this.allPersons = persons;
+      },
+      error: error => {
+        console.error('Error fetching all persons:', error);
       }
     });
   }
@@ -53,6 +71,8 @@ export class HomeContainerComponent implements OnInit {
         // Handle success: Update UI, show success message, etc.
         // Clear the input fields after success
         this.clearInputFields();
+        // Fetch all persons again after adding a new person
+        this.fetchAllPersons();
       },
       error: error => {
         console.error(error);

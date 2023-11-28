@@ -18,6 +18,10 @@ export class PersonService {
 
   constructor(private http: HttpClient) {}
 
+  getAllPersons(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/get_all_persons`);
+  }
+
   addPerson(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/add_person`, data);
   }
